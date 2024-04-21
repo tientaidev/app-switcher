@@ -10,6 +10,7 @@
     "package": "plasmo package"
   },
   "dependencies": {
+    "@plasmohq/storage": "^1.9.2",
     "plasmo": "0.84.2",
     "react": "18.2.0",
     "react-dom": "18.2.0"
@@ -20,12 +21,66 @@
     "@types/node": "20.11.5",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.35",
     "prettier": "3.2.4",
+    "tailwindcss": "^3.4.1",
     "typescript": "5.3.3"
   },
   "manifest": {
     "host_permissions": [
       "https://*/*"
+    ],
+    "commands": {
+      "navigate_app_0": {
+        "description": "Go to app 0",
+        "suggested_key": {
+          "default": "Alt+0",
+          "mac": "Alt+0"
+        }
+      },
+      "navigate_app_1": {
+        "description": "Go to app 1",
+        "suggested_key": {
+          "default": "Alt+1",
+          "mac": "Alt+1"
+        }
+      },
+      "navigate_app_2": {
+        "description": "Go to app 2",
+        "suggested_key": {
+          "default": "Alt+2",
+          "mac": "Alt+2"
+        }
+      },
+      "navigate_app_3": {
+        "description": "Go to app 3",
+        "suggested_key": {
+          "default": "Alt+3",
+          "mac": "Alt+3"
+        }
+      },
+      "navigate_app_4": {
+        "description": "Go to app 4"
+      },
+      "navigate_app_5": {
+        "description": "Go to app 5"
+      },
+      "navigate_app_6": {
+        "description": "Go to app 6"
+      },
+      "navigate_app_7": {
+        "description": "Go to app 7"
+      },
+      "navigate_app_8": {
+        "description": "Go to app 8"
+      },
+      "navigate_app_9": {
+        "description": "Go to app 9"
+      }
+    },
+    "permissions": [
+      "tabGroups"
     ]
   }
 }

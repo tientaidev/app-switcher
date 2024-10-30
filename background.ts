@@ -1,20 +1,24 @@
 export { };
 
-import { Storage } from "@plasmohq/storage";
+import { sessionStorage } from "~sessionStorage";
 import { localStorage } from "~localStorage";
 
+// new tab is always created on the leftmost position
+const TAB_DEFAULT_POSITION = 0;
+
+// open options page when the extension icon is clicked
 chrome.action.onClicked.addListener(() => {
   chrome.runtime.openOptionsPage();
 });
 
 chrome.tabs.onCreated.addListener(async () => {
   const currentWindowTabs = await chrome.tabs.query({ currentWindow: true });
-  chrome.tabs.ungroup(currentWindowTabs.map(tab => tab.id));
+  await chrome.tabs.ungroup(currentWindowTabs.map(tab => tab.id));
   await groupTab();
-})
+});
 
 const createNewTab = async (url: string, index: number) => {
-  const tab = await chrome.tabs.create({ url: url, active: true, index: 0 });
+  const tab = await chrome.tabs.create({ url: url, active: true, index: TAB_DEFAULT_POSITION });
   await sessionStorage.set(index.toString(), tab.id);
 
   return tab;
@@ -42,7 +46,15 @@ const groupTab = async () => {
     currentWindowTabs
       .filter(tab => userAppTabIds.includes(tab.id.toString()))
       .map(tab => tab.id);
-  const groupId = await chrome.tabs.group({ tabIds: userAppTabIdsInCurrentWindowTabs });
+
+  let groupId = null;
+  try {
+    groupId = await chrome.tabs.group({ tabIds: userAppTabIdsInCurrentWindowTabs });
+  } catch (error) {
+    groupId = null;
+  }
+
+  if (!groupId) return;
 
   await chrome.tabGroups.update(groupId, { collapsed: true });
 }
@@ -61,8 +73,4 @@ chrome.commands.onCommand.addListener(async (command) => {
   else createNewTab(url, parseInt(index));
 
   await groupTab();
-});
-
-const sessionStorage = new Storage({
-  area: 'session'
 });
